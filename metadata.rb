@@ -1,0 +1,10 @@
+name 'elk'
+maintainer 'Harish Shetty'
+maintainer_email 'harish.kb27@gmail.com'
+license 'all_rights'
+description 'Installs/Configures elk'
+long_description 'Installs/Configures elk'
+version '0.1.0'
+
+depends 'ark'
+depends 'java'

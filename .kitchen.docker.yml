@@ -1,0 +1,32 @@
+---
+driver:
+  name: docker
+  docker: /usr/local/bin/docker
+  use_sudo: false
+
+driver_config:
+  privileged: true
+  run_command: /sbin/init
+  cap_add:
+    - ALL
+    - SYS_ADMIN
+    - NET_ADMIN
+    - NET_BIND_SERVICE
+    - NET_BROADCAST
+
+provisioner:
+  name: chef_zero
+
+# Uncomment the following verifier to leverage Inspec instead of Busser (the
+# default verifier)
+# verifier:
+#   name: inspec
+
+platforms:
+  - name: centos-7.1
+
+suites:
+  - name: default
+    run_list:
+      - recipe[elk::default]
+    attributes:
