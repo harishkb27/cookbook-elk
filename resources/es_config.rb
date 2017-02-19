@@ -60,7 +60,7 @@ action_class do
 	end
 
 	def calculate_allocated_memory
-	  node_memory_half = ((node['memory']['total'].to_i *0.5).floor / 1024)
+	  node_memory_half = ((node['memory']['total'].to_i * 0.5).floor / 1024)
 	  allocated_memory = (node_memory_half > 30500 ? '30500m' : "#{node_memory_half}m")
 	  allocated_memory
 	end
@@ -128,6 +128,7 @@ action :configure do
   	group new_resource.es_group
   	variables(jvm_options: jvm_opts)
   	action :create
+    notifies :restart, 'elk_es_service[elasticsearch]', :delayed
   end
 
   template "log4j2_properties" do
@@ -137,6 +138,7 @@ action :configure do
     group new_resource.es_group
     mode '0750'
     action :create
+    notifies :restart, 'elk_es_service[elasticsearch]', :delayed
   end
 
   template "elasticsearch.yml" do
@@ -155,6 +157,7 @@ action :configure do
       path_conf: new_resource.conf_path
     })
     action :create
+    notifies :restart, 'elk_es_service[elasticsearch]', :delayed
   end
 end
 

@@ -35,3 +35,8 @@ default['elk']['elasticsearch']['configuration'] = {
 	'node_data' => true,
 	'node_master' => true,
 }
+
+# Please stick to {'plugin_name': '', 'url': '', 'options': ''}
+default['elk']['elasticsearch']['plugins'] = [
+  {'plugin_name': 'x-pack'}
+]

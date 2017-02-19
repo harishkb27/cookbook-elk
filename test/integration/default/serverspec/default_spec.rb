@@ -126,6 +126,24 @@ describe command('sleep 30') do
   its(:exit_status) { should eq 0 }
 end
 
-describe command('curl http://elastic:change@localhost:9200') do
+describe command('curl http://elastic:changeme@localhost:9200') do
   its(:stdout) { should match(/elasticsearch/) }
+end
+
+# test elasticsearch plugin
+
+plugins = ['x-pack']
+
+plugins.each do |plugin|
+  describe file("#{elk_es_home}/plugins/#{plugin}") do
+    it { should be_directory }
+    it { should be_owned_by 'root' }
+    it { should be_grouped_into 'root' }
+  end
+end
+
+describe command('curl http://elastic:changeme@localhost:9200/_nodes/plugins') do
+  plugins.each do |plugin|
+    its(:stdout) { should match(/#{plugin}/) }
+  end
 end

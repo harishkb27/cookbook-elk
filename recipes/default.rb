@@ -22,3 +22,13 @@ elk_es_config 'elasticsearch'
 elk_es_service 'elasticsearch' do
   action [:enable, :start]
 end
+
+# install elasticsearch plugins
+node['elk']['elasticsearch']['plugins'].each do |plugin|
+  next if plugin[:plugin_name].to_s.empty?
+  elk_es_plugin plugin[:plugin_name] do
+  	plugin.each do |key, value|
+      send(key, value) unless value.to_s.empty?
+  	end
+  end
+end

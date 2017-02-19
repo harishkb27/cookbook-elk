@@ -33,5 +33,9 @@ describe 'elk::default' do
       expect(chef_run).to enable_elk_es_service('elasticsearch')
       expect(chef_run).to start_elk_es_service('elasticsearch')
     end
+
+    it 'installs elasticsearch plugins' do
+      expect(chef_run).to install_elk_es_plugin(/.?/)
+    end
   end
 end
