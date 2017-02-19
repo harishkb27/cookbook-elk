@@ -8,6 +8,8 @@ property :version, String, default: node['elk']['versions']['elasticsearch']
 property :es_user, String, default: node['elk']['elasticsearch']['user']
 property :es_group, String, default: node['elk']['elasticsearch']['group']
 
+default_action :install
+
 action :install do
 
 	ark new_resource.resource_name do

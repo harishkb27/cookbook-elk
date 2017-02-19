@@ -52,6 +52,7 @@ property :jvm_options, Array, default:
     -XX:+HeapDumpOnOutOfMemoryError
   ).freeze
 
+default_action :configure
 
 action_class do
 	

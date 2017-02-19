@@ -6,6 +6,8 @@ property :es_user, String, default: node['elk']['elasticsearch']['user']
 property :es_group, String, default: node['elk']['elasticsearch']['group']
 property :pid_path, String, default: node['elk']['elasticsearch']['paths']['pid']
 
+default_action :enable
+
 action_class do
 
   def configure

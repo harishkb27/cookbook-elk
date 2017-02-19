@@ -1,16 +1,18 @@
 resource_name :elk_es_plugin
 
 property :plugin_name, String, name_property: true, required: true
-property :url, String, default: nil
+property :url, String
 property :options, String, default: ''
 property :home_path, String, default: node['elk']['elasticsearch']['paths']['home']
 property :plugins_path, String, default: node['elk']['elasticsearch']['paths']['plugins']
 property :sysconfig_path, String, default: node['elk']['elasticsearch']['paths']['sysconfig']
 
+default_action :install
+
 action_class do
   
   def plugin_exists(plugin_name)
-    Dir.entries(new_resource.home_path).any? do |plugin|
+    Dir.entries(new_resource.plugins_path).any? do |plugin|
       next if plugin =~ /^\./
       name == plugin
     end
