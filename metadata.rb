@@ -6,7 +6,7 @@ description 'Installs/Configures elk'
 long_description 'Installs/Configures elk'
 issues_url 'https://github.com/harishkb27/cookbook-elk/issues'
 source_url 'https://github.com/harishkb27/cookbook-elk'
-version '0.1.2'
+version '0.1.4'
 
 depends 'ark'
 depends 'java'

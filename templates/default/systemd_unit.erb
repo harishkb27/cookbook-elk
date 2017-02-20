@@ -12,7 +12,7 @@ Environment=LOG_DIR=/var/log/elasticsearch
 Environment=PID_DIR=/var/run/elasticsearch
 EnvironmentFile=-<%= @default_dir %>/<%= @program_name %>
 
-WorkingDirectory=${ES_HOME}
+WorkingDirectory=/usr/share/elasticsearch
 
 User=<%= @es_user %>
 Group=<%= @es_group %>

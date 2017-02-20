@@ -71,7 +71,7 @@ end
 action :configure do
 
   execute "sysctl vm max_map_count" do
-    command 'sysctl -w vm.max_map_count=#{new_resource.max_map_count}'
+    command "sysctl -w vm.max_map_count=#{new_resource.max_map_count}"
     only_if "[[ $(sysctl -n vm.max_map_count) -ne #{new_resource.max_map_count} ]]"
     action :run
   end
