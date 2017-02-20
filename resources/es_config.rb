@@ -70,7 +70,7 @@ end
 
 action :configure do
   
-  [new_resource.conf_path, new_resource.logs_path, "#{new_resource.conf_path}/scripts"].each do |path|
+  [new_resource.conf_path, new_resource.logs_path, new_resource.plugins_path, "#{new_resource.conf_path}/scripts"].each do |path|
   	directory path do
   	  owner new_resource.es_user
   	  group new_resource.es_group
