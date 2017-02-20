@@ -69,6 +69,12 @@ action_class do
 end
 
 action :configure do
+
+  execute "sysctl vm max_map_count" do
+    command 'sysctl -w vm.max_map_count=#{new_resource.max_map_count}'
+    only_if "[[ $(sysctl -n vm.max_map_count) -ne #{new_resource.max_map_count} ]]"
+    action :run
+  end
   
   [new_resource.conf_path, new_resource.logs_path, new_resource.plugins_path, "#{new_resource.conf_path}/scripts"].each do |path|
   	directory path do
