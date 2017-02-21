@@ -43,6 +43,7 @@ action_class do
 	  action :nothing
 	  only_if 'which systemctl'
 	  subscribes :run, "template[/usr/lib/systemd/system/#{new_resource.resource_name}.service]", :immediately
+	  notifies :restart, "elk_es_service[#{new_resource.resource_name}]", :delayed
 	end
   end
 

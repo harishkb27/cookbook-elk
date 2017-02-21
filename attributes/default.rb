@@ -29,11 +29,13 @@ default['elk']['elasticsearch']['paths'] = {
 	'plugins' => "#{node['elk']['base_dir']}/elasticsearch/plugins",
 }
 
+# if master_hosts is not provided, a chef search is carried out.
 default['elk']['elasticsearch']['configuration'] = {
 	'cluster_name' => 'elasticsearch',
 	'node_name' => node['hostname'],
 	'node_data' => true,
 	'node_master' => true,
+	'master_hosts' => []
 }
 
 # Please stick to {'plugin_name': '', 'url': '', 'options': ''}

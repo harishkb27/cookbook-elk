@@ -66,6 +66,31 @@ action_class do
 	  allocated_memory
 	end
 
+  def search_master_nodes
+
+    if Chef::Config[:solo]
+      ["127.0.0.1", "[::1]"]
+    else
+      master_hosts = []
+      search(:node, "cluster_name:elasticsearch AND node_master:true", filter_result: {fqdn: [:fqdn]}).each do |host|
+        master_hosts << host['fqdn']
+      end
+      master_hosts = master_hosts.any? ? master_hosts.sort.uniq : ["127.0.0.1", "[::1]"]
+      master_hosts
+    end
+  rescue
+    ["127.0.0.1", "[::1]"]
+  end
+
+  def master_eligible_hosts
+    master_hosts_attr = node['elk']['elasticsearch']['configuration']['master_hosts']
+    master_hosts = master_hosts_attr.empty? ? search_master_nodes : master_hosts_attr
+  end
+
+  def minimum_master_nodes(master_hosts)
+    master_hosts.length / 2 + 1
+  end
+
 end
 
 action :configure do
@@ -148,6 +173,7 @@ action :configure do
     notifies :restart, 'elk_es_service[elasticsearch]', :delayed
   end
 
+  master_hosts = master_eligible_hosts
   template "elasticsearch.yml" do
     path "#{new_resource.conf_path}/elasticsearch.yml"
     source new_resource.yml_template
@@ -161,7 +187,9 @@ action :configure do
       node_master: new_resource.configuration['node_master'],
       path_data: new_resource.data_path,
       path_logs: new_resource.logs_path,
-      path_conf: new_resource.conf_path
+      path_conf: new_resource.conf_path,
+      master_hosts: master_hosts,
+      minimum_master_nodes: minimum_master_nodes(master_hosts)
     })
     action :create
     notifies :restart, 'elk_es_service[elasticsearch]', :delayed
