@@ -13,8 +13,8 @@ driver_config:
     - NET_ADMIN
     - NET_BIND_SERVICE
     - NET_BROADCAST
-  forward:
-    - 9200:9200
+  # forward:
+  #   - 9200:9200
 
 provisioner:
   name: chef_zero
@@ -25,7 +25,14 @@ provisioner:
 #   name: inspec
 
 platforms:
-  - name: centos-7.1
+  - name: node1
+    driver_config:
+      image: centos:7
+      platform: centos
+  - name: node2
+    driver_config:
+      image: centos:7
+      platform: centos
 
 suites:
   - name: default
